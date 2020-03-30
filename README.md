@@ -1,3 +1,10 @@
+From top level use 
+npm start
+in the command line and then in a seperate terminal run
+nodemon server
+with both servers running you should be supported with a browswer page and mongodb
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -89,7 +89,7 @@ export default class EditPost extends Component {
         axios.post('http://localhost:5000/posts/update/'+this.props.match.params.id, post)
         .then(res => console.log(res.data))
 
-        window.location = '/'
+        window.location = '/blogs'
         
     }
 

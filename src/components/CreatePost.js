@@ -42,9 +42,9 @@ export default class CreatePost extends Component {
         })
     }
 
-    onChangeDuration = (e)=> {
+    onChangeLocation = (e)=> {
         this.setState({
-            duration: e.target.value
+            location: e.target.value
         })
     }
 
@@ -72,10 +72,10 @@ export default class CreatePost extends Component {
         }
 
         console.log(post)
-        axios.post('http://localhost:5000/posts/add/', post)
+        axios.post('http://localhost:5000/posts/add', post)
         .then(res => console.log(res.data))
 
-        // window.location = '/'
+        window.location = '/blogs'
         
     }
 
@@ -116,10 +116,11 @@ export default class CreatePost extends Component {
         <div className="form-group">
           <label>Location: </label>
           <input 
+          placeholder='City, Country'
               type="text" 
               className="form-control"
-              value={this.state.duration}
-              onChange={this.onChangeDuration}
+              value={this.state.location}
+              onChange={this.onChangeLocation}
               />
         </div>
         <div className="form-group">

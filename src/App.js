@@ -9,6 +9,7 @@ import BlogList from './components/BlogList'
 import EditPost from './components/EditPost'
 import CreatePost from './components/CreatePost'
 import CreateUser from './components/CreateUser'
+import PostPage from './components/PostPage'
 
 
 
@@ -24,6 +25,7 @@ function App() {
 			<Route path="/" exact component={HomeBody} />
       <Route path="/blogs" component={BlogList} />
 			<Route path="/edit/:id" component={EditPost} />
+      <Route path="/postpage/:id" component={PostPage} />
 			<Route path="/create" component={CreatePost} />
 			<Route path="/user" component={CreateUser} />
       </div>

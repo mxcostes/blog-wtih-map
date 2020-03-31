@@ -10,6 +10,7 @@ const Post = props => (
     <td>{props.posts.date.substring(0,10)}</td>
     <td>
       <Link to={"/edit/"+props.posts._id}>edit</Link> | <a href="#" onClick={() => { props.deletePost(props.post._id) }}>delete</a>
+       | <Link to={"/postpage/"+props.posts._id}>Go to Post</Link> 
     </td>
   </tr>
 )
@@ -58,7 +59,7 @@ this.setState({
                 <tr>
                   <th>Username</th>
                   <th>Description</th>
-                  <th>Duration</th>
+                  <th>Location</th>
                   <th>Date</th>
                   <th>Actions</th>
                 </tr>

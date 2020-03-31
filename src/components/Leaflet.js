@@ -29,32 +29,41 @@ componentDidMount() {
     })
     .catch((error)=> console.log(error))
 
-    console.log(this.state.posts)
-    // this.placemarkers()
+    // console.log(this.state.posts)
+   
 }
 
 
+markertList=()=>{
+    
+    return this.state.posts.forEach(post => {
+        
+    
+        
+        console.log(this.getLatLong(post.location))
+    })
+}
 
-// getLatLong=(location)=>{
+getLatLong=(location)=>{
 
-//     let latLon = {}
-//     fetch(`https://nominatim.openstreetmap.org/search/?q=${location}&format=json`)
-//         .then((data) => {
-//             return data.json()
-//         })
-//         .then((locInfo) => {
-//             console.log(locInfo[0])
-//             let info = locInfo[0]
-//             let lat = info.lat
-//             let lon = info.lon
-//             console.log(lat)
-//             console.log(lon)
-//             latLon.lat = lat
-//             latLon.lon = lon
-//             let position = lat+","+lon
-//             return <Marker position={position}/>
-//         })
-// }
+    let latLon = {}
+    fetch(`https://nominatim.openstreetmap.org/search/?q=${location}&format=json`)
+        .then((data) => {
+            return data.json()
+        })
+        .then((locInfo) => {
+            console.log(locInfo[0])
+            let info = locInfo[0]
+            let lat = info.lat
+            let lon = info.lon
+            console.log(lat)
+            console.log(lon)
+            latLon.lat = lat
+            latLon.lon = lon
+            let position = lat+","+lon
+            return position
+        })
+}
 
 // placemarkers() {
 //     window.fetch('http://localhost:5000/posts/')
@@ -87,6 +96,7 @@ componentDidMount() {
 
 
     render() {
+        // this.markertList()
         let position = [this.state.lat, this.state.lng];
         return (
 
@@ -99,8 +109,8 @@ componentDidMount() {
 						attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 						url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
 					/>
-					
-					
+					<Marker position={position}/>
+					{/* {this.markertList()} */}
 				</Map>
 
                 </div>

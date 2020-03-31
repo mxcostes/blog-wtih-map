@@ -9,6 +9,7 @@ export default class EditPost extends Component {
 
         this.state = {
             username: '',
+            title: '',
             description: '',
             location: '',
             image: '',
@@ -23,6 +24,7 @@ export default class EditPost extends Component {
         .then(response => {
             this.setState({
                 username: response.data.username,
+                title: response.data.title,
                 description: response.data.description,
                 location: response.data.location,
                 image: response.data.image,
@@ -47,6 +49,12 @@ export default class EditPost extends Component {
     onChangeUsername = (e)=> {
         this.setState({
             username: e.target.value
+        })
+    }
+
+    onChangeTitle=(e)=> {
+        this.setState({
+            title: e.target.value
         })
     }
 
@@ -79,6 +87,7 @@ export default class EditPost extends Component {
 
         const post= {
             username: this.state.username,
+            title: this.state.title,
             description: this.state.description,
             location: this.state.location,
             image: this.state.image,
@@ -89,7 +98,7 @@ export default class EditPost extends Component {
         axios.post('http://localhost:5000/posts/update/'+this.props.match.params.id, post)
         .then(res => console.log(res.data))
 
-        window.location = '/blogs'
+        window.location = '/postpage/' + this.props.match.params.id
         
     }
 
@@ -117,13 +126,23 @@ export default class EditPost extends Component {
               }
           </select>
         </div>
+        <div className="form-group">
+          <label>Title: </label>
+          <input 
+              type="text" 
+              className="form-control"
+              value={this.state.title}
+              onChange={this.onChangeTitle}
+              />
+        </div>
         <div className="form-group"> 
           <label>Description: </label>
-          <input  type="text"
+          <textarea  type="text"
               required
               className="form-control"
               value={this.state.description}
               onChange={this.onChangeDescription}
+              rows='6'
               />
         </div>
         <div className="form-group">
@@ -155,7 +174,7 @@ export default class EditPost extends Component {
         </div>
 
         <div className="form-group">
-          <input type="submit" value="Edit Exercise Log" className="btn btn-primary" />
+          <input type="submit" value="Edit Post" className="btn btn-primary" />
         </div>
       </form>
     </div>

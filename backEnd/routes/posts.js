@@ -7,6 +7,7 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req, res) => {
 	const username = req.body.username;
+	const title = req.body.title;
 	const description = req.body.description;
 	const location = req.body.location;
 	const image = req.body.image;
@@ -14,6 +15,7 @@ router.route('/add').post((req, res) => {
 
 	const newPost = new Post({
 		username,
+		title,
 		description,
 		location,
 		image,
@@ -38,6 +40,7 @@ router.route('/update/:id').post((req, res) => {
 	Post.findById(req.params.id)
 		.then((post) => {
 			post.username = req.body.username;
+			post.title = req.body.title;
 			post.description = req.body.description;
 			post.location = req.body.location;
 			post.image = req.body.image;

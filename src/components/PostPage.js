@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import 'react-datepicker/dist/react-datepicker.css'
 import axios from 'axios'
 
@@ -7,11 +8,13 @@ export  class PostPage extends Component {
         super(props)
 
         this.state = {
+            _id: '',
             username: '',
+            title: '',
             description: '',
             location: '',
             image: '',
-            date: new Date(),
+            date: '',
             users: [],
         }
 
@@ -21,7 +24,9 @@ export  class PostPage extends Component {
         axios.get('http://localhost:5000/posts/' + this.props.match.params.id)
         .then(response => {
             this.setState({
+                _id: response.data._id,
                 username: response.data.username,
+                title: response.data.title,
                 description: response.data.description,
                 location: response.data.location,
                 image: response.data.image,
@@ -37,11 +42,15 @@ export  class PostPage extends Component {
     render() {
         return (
             <div>
-    <h1>Post by {this.state.username}</h1>
-    {/* <h4>{this.state.date}</h4> */}
+    <h1>{this.state.title}</h1>
+    <h4>Post by {this.state.username}</h4>
+
+    {/* <h5>{this.state.date}</h5> */}
     <img className='featuredImage' src={this.state.image}></img>
         <h3>{this.state.location}</h3>
     <p>{this.state.description}</p>
+    <Link to={"/edit/"+this.state._id}><input type="submit" value="Edit Post" className="btn btn-primary" /></Link>
+
             </div>
         )
     }

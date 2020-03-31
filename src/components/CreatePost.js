@@ -9,6 +9,7 @@ export default class CreatePost extends Component {
 
         this.state = {
             username: '',
+            title: '',
             description: '',
             location: '',
             image: '',
@@ -35,6 +36,12 @@ export default class CreatePost extends Component {
             username: e.target.value
         })
     }
+    
+    onChangeTitle = (e)=> {
+      this.setState({
+          title: e.target.value
+      })
+  }
 
     onChangeDescription = (e)=> {
         this.setState({
@@ -65,6 +72,7 @@ export default class CreatePost extends Component {
 
         const post = {
             username: this.state.username,
+            title: this.state.title,
             description: this.state.description,
             location: this.state.location,
             image: this.state.image,
@@ -102,6 +110,15 @@ export default class CreatePost extends Component {
                 })
               }
           </select>
+        </div>
+        <div className="form-group"> 
+          <label>Title: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.title}
+              onChange={this.onChangeTitle}
+              />
         </div>
         <div className="form-group"> 
           <label>Description: </label>

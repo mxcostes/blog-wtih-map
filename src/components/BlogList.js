@@ -5,7 +5,7 @@ import axios from 'axios'
 const Post = props => (
     <tr>
     <td>{props.posts.username}</td>
-    <td>{props.posts.description}</td>
+    <td><Link to={"/postpage/"+props.posts._id}>{props.posts.title}</Link></td>
     <td>{props.posts.location}</td>
     <td>{props.posts.date.substring(0,10)}</td>
     <td>
@@ -58,7 +58,7 @@ this.setState({
               <thead className="thead-light">
                 <tr>
                   <th>Username</th>
-                  <th>Description</th>
+                  <th>Title</th>
                   <th>Location</th>
                   <th>Date</th>
                   <th>Actions</th>

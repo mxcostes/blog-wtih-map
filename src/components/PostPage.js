@@ -49,7 +49,7 @@ export  class PostPage extends Component {
     <img className='featuredImage' src={this.state.image}></img>
         <h3>{this.state.location}</h3>
     <p>{this.state.description}</p>
-    <Link to={"/edit/"+this.state._id}><input type="submit" value="Edit Post" className="btn btn-primary" /></Link>
+    <Link to={"/edit/"+this.state._id}><input type="submit" value="Go Edit" className="btn btn-primary" /></Link>
 
             </div>
         )

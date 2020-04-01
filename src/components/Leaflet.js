@@ -48,7 +48,6 @@ export class Leaflet extends Component {
 	};
 
 	render() {
-		this.markertList();
 		let center = [ this.state.lat, this.state.lng ];
 		return (
 			<div className="leaflet-container">
@@ -58,7 +57,7 @@ export class Leaflet extends Component {
 						url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
 					/>
 					<Marker position={center} />
-					{this.markertList()}
+					{/* {this.markertList()} */}
 				</Map>
 			</div>
 		);

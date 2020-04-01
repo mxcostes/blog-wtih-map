@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Map, TileLayer, Marker } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 import '../App.css';
 
@@ -56,7 +57,9 @@ export class Leaflet extends Component {
 						attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 						url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
 					/>
-					<Marker position={center} />
+					<Marker position={center} >
+					<Popup><Link to="/postpage/5e8389a1c32d850a398fecd3">Under the Trees</Link></Popup>
+					 </Marker>
 					{/* {this.markertList()} */}
 				</Map>
 			</div>

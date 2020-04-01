@@ -30,7 +30,7 @@ export class Leaflet extends Component {
 	}
 
 	markertList = () => {
-		this.state.posts.forEach((post) => {
+		this.state.posts.map((post) => {
 			fetch(`https://nominatim.openstreetmap.org/search/?q=${post.location}&format=json`)
 				.then((data) => {
 					return data.json();
@@ -42,8 +42,17 @@ export class Leaflet extends Component {
 					let lon = info.lon;
 					let position = lat + ',' + lon;
 					console.log(position);
+					console.log(post._id)
 
-					return <Marker position={position} />;
+					return (<Marker position={position}>
+						<Popup>
+					<Link to={"/postpage/"+post._id}>{post.title}</Link>
+						</Popup>
+
+					</Marker>
+						
+						
+						)
 				});
 		});
 	};
@@ -60,7 +69,7 @@ export class Leaflet extends Component {
 					<Marker position={center} >
 					<Popup><Link to="/postpage/5e8389a1c32d850a398fecd3">Under the Trees</Link></Popup>
 					 </Marker>
-					{/* {this.markertList()} */}
+					{this.markertList()}
 				</Map>
 			</div>
 		);

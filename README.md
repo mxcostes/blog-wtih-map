@@ -2,7 +2,9 @@ From top level use
 npm start
 in the command line and then in a seperate terminal run
 nodemon server
-with both servers running you should be supported with a browswer page and mongodb
+with both servers running you should be supported with a browswer page and mongodb.
+
+Goal will be to eventually get the map to make a marker for each post with a link to the corresponding post.
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

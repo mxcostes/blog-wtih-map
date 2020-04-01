@@ -22,8 +22,7 @@ router.route('/add').post((req, res) => {
 		date
 	});
 
-  newPost.save()
-  .then(() => res.json('Post added!')).catch((err) => res.status(400).json('Error: ' + err));
+	newPost.save().then(() => res.json('Post added!')).catch((err) => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').get((req, res) => {

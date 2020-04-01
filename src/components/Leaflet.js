@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
 
@@ -36,23 +36,21 @@ export class Leaflet extends Component {
 					return data.json();
 				})
 				.then((locInfo) => {
-                    let info = locInfo[0];
-                    console.log(info)
+					let info = locInfo[0];
+					console.log(info);
 					let lat = info.lat;
 					let lon = info.lon;
 					let position = lat + ',' + lon;
 					console.log(position);
-					console.log(post._id)
+					console.log(post._id);
 
-					return (<Marker position={position}>
-						<Popup>
-					<Link to={"/postpage/"+post._id}>{post.title}</Link>
-						</Popup>
-
-					</Marker>
-						
-						
-						)
+					return (
+						<Marker position={position}>
+							<Popup>
+								<Link to={'/postpage/' + post._id}>{post.title}</Link>
+							</Popup>
+						</Marker>
+					);
 				});
 		});
 	};
@@ -66,9 +64,11 @@ export class Leaflet extends Component {
 						attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 						url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
 					/>
-					<Marker position={center} >
-					<Popup><Link to="/postpage/5e8389a1c32d850a398fecd3">Under the Trees</Link></Popup>
-					 </Marker>
+					<Marker position={center}>
+						<Popup>
+							<Link to="/postpage/5e8389a1c32d850a398fecd3">Under the Trees</Link>
+						</Popup>
+					</Marker>
 					{this.markertList()}
 				</Map>
 			</div>

@@ -9,7 +9,7 @@ const Post = props => (
     <td>{props.posts.location}</td>
     <td>{props.posts.date.substring(0,10)}</td>
     <td>
-      <Link to={"/edit/"+props.posts._id}>edit</Link> | <a href="#" onClick={() => { props.deletePost(props.post._id) }}>delete</a>
+      <Link to={"/edit/"+props.posts._id}>edit</Link> | <a href="#" onClick={() => { props.deletePost(props.posts._id) }}>delete</a>
        | <Link to={"/postpage/"+props.posts._id}>Go to Post</Link> 
     </td>
   </tr>

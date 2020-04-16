@@ -66,9 +66,38 @@ export default class CreatePost extends Component {
            date: date
         })
     }
+    
+    onChangeImageTitle=(e) => {
+      this.setState({
+          title: e.target.value
+      })
+      }
+      
+      onChangeUploadImage=(e)=> {
+          this.setState({
+              uploadImage: e.target.files[0]
+          })
+      }
+      
+      onSubmit=(e)=>{
+          e.preventDault()
+          let formData = new FormData()
+          formData.append("title", this.state.title)
+          formData.append("image", this.state.image)
+          this.props.addImage(formData)
+      
+          this.setState({
+              imageTitle: '',
+              image: ''
+          })
+      }
 
     onSubmit=(e)=>{
         e.preventDefault()
+        let formData = new FormData()
+          formData.append("title", this.state.title)
+          formData.append("image", this.state.image)
+          // this.props.addImage(formData)
 
         const post = {
             username: this.state.username,
@@ -76,6 +105,8 @@ export default class CreatePost extends Component {
             description: this.state.description,
             location: this.state.location,
             image: this.state.image,
+            imageTitle: this.state.imageTitle,
+            uploadImage: this.state.username,
             date: this.state.date,
         }
 
@@ -148,6 +179,21 @@ export default class CreatePost extends Component {
               value={this.state.image}
               onChange={this.onChangeImage}
               />
+              <label className='form-label'>Upload Image Title</label>
+                <input 
+                className='form-input' 
+                placeholder='Enter image title' 
+                type='text'
+                value={this.state.imageTitle}
+                onChange={this.onChangeimageTitle}
+                ></input>
+                <label className='form-label'> Choose an Image to Upload</label>
+                <input 
+                type='file'
+                className='form-input'
+                name='image'
+                accept='image/*'
+                onChange={this.onChangeuploadImage}></input>
         </div>
         <div className="form-group">
           <label>Date: </label>
@@ -161,7 +207,7 @@ export default class CreatePost extends Component {
 
         <div className="form-group">
           <input type="submit" value="Create Post" className="btn btn-primary" />
-        </div>
+        </div> 
       </form>
     </div>
     )

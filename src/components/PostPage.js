@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import 'react-datepicker/dist/react-datepicker.css'
 import axios from 'axios'
+import {Image, CloudinaryContext} from 'cloudinary-react';
 
 export  class PostPage extends Component {
     constructor(props){

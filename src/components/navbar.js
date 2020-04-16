@@ -1,29 +1,34 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {  Navbar, Nav } from 'react-bootstrap'
 
-export default class Navbar extends Component {
+export default class NavBar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-        <Link to="/" className="navbar-brand">Travel Tracker</Link>
-        <div className="collpase navbar-collapse">
-        <ul className="navbar-nav mr-auto">
-          <li className="navbar-item">
+      <Navbar fixed="top" bg="dark" variant="dark" className='navContainer' expand='md' collapseOnSelect={true}>
+      <Link to="/" className="navbar-brand">Travel Tracker</Link>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+					<Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">          
+          <Nav.Link className="navbar-item">
           <Link to="/" className="nav-link">Home</Link>
-          </li>
-          <li className="navbar-item">
+          </Nav.Link>
+          <Nav.Link className="navbar-item">
           <Link to="/blogs" className="nav-link">Blogs</Link>
-          </li>
-          <li className="navbar-item">
+          </Nav.Link>
+          <Nav.Link className="navbar-item">
           <Link to="/create" className="nav-link">Create Blog Post</Link>
-          </li>
-          <li className="navbar-item">
-          <Link to="/user" className="nav-link">Create User</Link>
-          </li>
-        </ul>
-        </div>
-      </nav>
+          </Nav.Link>
+          <Nav.Link className="navbar-item">
+          <Link to="/user" className="nav-link">Log In</Link>
+          </Nav.Link>
+          <Nav.Link>
+            <Link to='/create_user' className='nav-link'>Sign Up</Link>
+        </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     );
   }
 }

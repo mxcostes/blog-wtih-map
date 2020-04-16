@@ -1,62 +1,77 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react'
+import { Form, Button } from "react-bootstrap";
+import firebase from 'firebase'
 
-export default class CreateUser extends Component {
-  constructor(props) {
-    super(props);
 
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
 
-    this.state = {
-      username: ''
-    }
-  }
 
-  onChangeUsername(e) {
-    this.setState({
-      username: e.target.value
-    })
-  }
 
-  onSubmit(e) {
-    e.preventDefault();
+// Initialize Firebase
 
-    const user = {
-      username: this.state.username
+class CreateUser extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            email: '',
+            password: '',
+            display: '',
+            displayColor: 'red',
+            
+        }
     }
 
-    console.log(user);
+    componentDidMount = () => {
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            console.log(user)
+            this.setState({
+              display: `logged in as ${user.email}`,
+              displayColor: 'green',
+              logoutDisabled: false,
+              loggedIn: true,
+              user: user
+            })
+          } else {
+            this.setState({
+              logoutDisabled: true,
+              loggedIn: false
+            })
+          }
+        })
+      }
 
-    axios.post('http://localhost:5000/users/add', user)
-      .then(res => console.log(res.data));
 
-    this.setState({
-      username: ''
 
-    })
-    window.location = '/create'
-  }
 
-  render() {
+
+
+
+
+
+
+render() {
     return (
-      <div>
-        <h3>Create New User</h3>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group"> 
-            <label>Username: </label>
-            <input  type="text"
-                required
-                className="form-control"
-                value={this.state.username}
-                onChange={this.onChangeUsername}
-                />
-          </div>
-          <div className="form-group">
-            <input type="submit" value="Create User" className="btn btn-primary" />
-          </div>
-        </form>
-      </div>
+        <Form >
+            <Form.Group controlId="formBasicEmail">
+                <div style={{ color: this.state.displayColor }} id="login-status">{this.state.display}</div>
+                <Form.Label>Email address</Form.Label>
+                <Form.Control type="email" placeholder="Enter email" onChange={this.props.emailChange} value={this.props.email} />
+                <Form.Text className="text-muted">
+                    We'll never share your email with anyone else.
+</Form.Text>
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" placeholder="Password" onChange={this.props.passwordChange} value={this.props.password} />
+            </Form.Group>
+            <Button className="modal-button"  variant="primary"  type="button"  onClick={this.props.createUser}>
+                Create User
+            </Button>
+            
+        </Form>
     )
-  }
 }
+}
+
+export default CreateUser
+

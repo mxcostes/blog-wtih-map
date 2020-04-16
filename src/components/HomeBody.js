@@ -5,7 +5,7 @@ export class HomeBody extends Component {
     render() {
         return (
             <div>
-                <h1>Hello world</h1>
+                <div><h1>Explore</h1></div>
                 <Leaflet />
             </div>
         )

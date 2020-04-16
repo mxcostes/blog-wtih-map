@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Button } from 'react-bootstrap';
 
 const Post = (props) => (
 	<tr>
@@ -11,16 +12,16 @@ const Post = (props) => (
 		<td>{props.posts.location}</td>
 		<td>{props.posts.date.substring(0, 10)}</td>
 		<td>
-			<Link to={'/edit/' + props.posts._id}>edit</Link> |{' '}
+			<Link to={'/edit/' + props.posts._id}><Button>edit</Button></Link> {' '}
 			<a
 				href="#"
 				onClick={() => {
 					props.deletePost(props.posts._id);
 				}}
 			>
-				delete
+				<Button>delete</Button>
 			</a>
-			| <Link to={'/postpage/' + props.posts._id}>Go to Post</Link>
+			<Link to={'/postpage/' + props.posts._id}><Button>Go to Post</Button></Link>
 		</td>
 	</tr>
 );

@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
 
+
+const  Mark = (props) => (
+	<Marker position={props.position} key={props.key}>
+							<Popup>
+								<Link to={'/postpage/' + props.post._id}>{props.post.title}</Link>
+							</Popup>
+						</Marker>
+)
+
 export class Leaflet extends Component {
 	constructor(props) {
 		super(props);
@@ -12,7 +21,9 @@ export class Leaflet extends Component {
 			lat: 0,
 			lng: 40,
 			zoom: 1.5,
-			posts: []
+			posts: [],
+			positions: []
+
 		};
 	}
 
@@ -30,7 +41,8 @@ export class Leaflet extends Component {
 	}
 
 	markertList = () => {
-		this.state.posts.map((post) => {
+		
+		return this.state.posts.forEach((post) => {
 			fetch(`https://nominatim.openstreetmap.org/search/?q=${post.location}&format=json`)
 				.then((data) => {
 					return data.json();
@@ -43,13 +55,9 @@ export class Leaflet extends Component {
 					let position = lat + ',' + lon;
 					console.log(position);
 					console.log(post._id);
-
+					
 					return (
-						<Marker position={position}>
-							<Popup>
-								<Link to={'/postpage/' + post._id}>{post.title}</Link>
-							</Popup>
-						</Marker>
+						<Mark key={post._id} post={post} position={position} />
 					);
 				});
 		});
@@ -69,7 +77,10 @@ export class Leaflet extends Component {
 							<Link to="/postpage/5e8389a1c32d850a398fecd3">Under the Trees</Link>
 						</Popup>
 					</Marker>
+					
+
 					{this.markertList()}
+					
 				</Map>
 			</div>
 		);

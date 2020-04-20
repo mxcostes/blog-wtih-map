@@ -12,6 +12,8 @@ import CreateUser from './components/CreateUser'
 import PostPage from './components/PostPage'
 import ModalLogIn from './components/ModalLogIn';
 import firebase from 'firebase'
+import ProfilePage from './components/ProfilePage';
+
 var firebaseConfig = {
   apiKey: "AIzaSyBesdsI0SGGWq7L1y6UEFbmBe9VahiofIk",
   authDomain: "blog-with-map-b6367.firebaseapp.com",
@@ -25,8 +27,10 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
-
+firebase.firestore()
 const auth = firebase.auth()
+const db = firebase.firestore()
+
 
 
 class App extends Component {
@@ -42,7 +46,9 @@ class App extends Component {
       logoutDisabled: true,
       modalShow: false,
       userModalShow: false,
-      user: ''
+      user: '',
+      userEmail: '',
+      displayName: ''
     }
 
   }
@@ -51,12 +57,20 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         console.log(user)
+        db.collection('users').doc(user.uid).get()
+        .then(doc => {
+          doc.data().userName?
+          this.setState({
+            displayName : doc.data().userName
+          }): console.log(user)
+        }) 
         this.setState({
           display: `logged in as ${user.email}`,
           displayColor: 'green',
           logoutDisabled: false,
           loggedIn: true,
-          user: user
+          user: user,
+          userEmail: user.email
         })
       } else {
         this.setState({
@@ -65,12 +79,22 @@ class App extends Component {
         })
       }
     })
+   
   }
+// firebase database submit user name
+
+
+
+  // login changes 
+
   emailChange = (event) => {
     this.setState({ email: event.target.value })
   }
   passwordChange = (event) => {
     this.setState({ password: event.target.value })
+  }
+  userNameChange = (event) => {
+    this.setState({ userName: event.target.value })
   }
 
   authState = ()=> {
@@ -82,6 +106,17 @@ class App extends Component {
       }
     })
   }
+  establishDisplayName = ()=> {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(user)
+        db.collection('users').doc(user.uid).get()
+        .then(doc => {
+          doc.data().userName?
+          this.setState({
+            displayName : doc.data().userName
+          }): console.log(user)
+        }) }})}
   ////////////////LOG IN MODAL//////////////
 
   setModalShow = () => {
@@ -194,7 +229,12 @@ class App extends Component {
     const password = this.state.password
     console.log(email, password)
     firebase.auth().createUserWithEmailAndPassword(email, password)
-    .catch(function(error) {
+    .then((cred)=> {
+      return db.collection('users').doc(cred.user.uid)
+      .set({
+        userName: this.state.userName
+      })
+    }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -214,14 +254,19 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-      <NavBar />
+      <NavBar loggedIn={this.state.loggedIn} />
       <br />
       <div className='container'>
         <Route path="/" exact component={HomeBody} />
         <Route path="/blogs" component={BlogList} />
         <Route path="/edit/:id" component={EditPost} />
         <Route path="/postpage/:id" component={PostPage} />
-        <Route path="/create" user={this.state.user} component={CreatePost} />
+        <Route path="/create">
+        <CreatePost 
+        user={this.state.user} 
+        userEmail={this.state.userEmail}
+        displayName={this.state.displayName}  />
+          </Route> 
         <Route path="/user">
           <ModalLogIn
             email={this.state.email}
@@ -242,10 +287,12 @@ class App extends Component {
             logOut={this.logOut}
             forgotPasswordAtLogIn={this.forgotPasswordAtLogIn}
             resetPassword={this.resetPassword}
-            changeEmail={this.changeEmail}/>
+            changeEmail={this.changeEmail}
+            createUser={this.createUser}/>
             </Route> 
         <Route path="/create_user"> 
         <CreateUser 
+        displayName={this.state.displayName}
         authState={this.authState}
         createUser={this.createUser}
         email={this.state.email}
@@ -253,8 +300,18 @@ class App extends Component {
         display={this.state.display}
         displayColor={this.state.displayColor}   
         emailChange={this.emailChange}
-        passwordChange={this.passwordChange}  /> 
+        passwordChange={this.passwordChange}
+        userNameChange={this.userNameChange}  /> 
         </Route>  
+        <Route path="/profile">
+          <ProfilePage 
+          displayName={this.state.displayName}
+          authState={this.authState}
+          userEmail={this.state.userEmail}
+          establishDisplayName={this.establishDisplayName}
+          />
+        </Route>
+
         </div>
      </Router>
       </div>

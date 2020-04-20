@@ -8,7 +8,7 @@ export default class EditPost extends Component {
 		super(props);
 
 		this.state = {
-			username: '',
+			userName: '',
 			title: '',
 			description: '',
 			location: '',
@@ -23,7 +23,8 @@ export default class EditPost extends Component {
 			.get('http://localhost:5000/posts/' + this.props.match.params.id)
 			.then((response) => {
 				this.setState({
-					username: response.data.username,
+					userName: response.data.userName ? response.data.userName : response.data.username,
+					email: response.data.email,
 					title: response.data.title,
 					description: response.data.description,
 					location: response.data.location,
@@ -44,7 +45,7 @@ export default class EditPost extends Component {
 		});
 	};
 
-	onChangeUsername = (e) => {
+	onChangeUserName = (e) => {
 		this.setState({
 			username: e.target.value
 		});
@@ -107,21 +108,11 @@ export default class EditPost extends Component {
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
 						<label>Username: </label>
-						<select
-							ref="userInput"
-							required
-							className="form-control"
-							value={this.state.username}
-							onChange={this.onChangeUsername}
-						>
-							{this.state.users.map((user) => {
-								return (
-									<option key={user} value={user}>
-										{user}
-									</option>
-								);
-							})}
-						</select>
+						<h4>{this.state.userName}</h4>
+					</div>
+					<div className="form-group">
+						<label>Email: </label>
+						<h4>{this.state.email}</h4>
 					</div>
 					<div className="form-group">
 						<label>Title: </label>

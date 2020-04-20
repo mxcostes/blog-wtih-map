@@ -70,7 +70,7 @@ export class Leaflet extends Component {
 				<Map center={center} zoom={this.state.zoom}>
 					<TileLayer
 						attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-						url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+						url={this.props.mapLayer? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" : 'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png'}
 					/>
 					<Marker position={center}>
 						<Popup>
@@ -79,7 +79,7 @@ export class Leaflet extends Component {
 					</Marker>
 					
 
-					{this.markertList()}
+					{/* {this.markertList()} */}
 					
 				</Map>
 			</div>
@@ -88,3 +88,14 @@ export class Leaflet extends Component {
 }
 
 export default Leaflet;
+
+
+// var Thunderforest_Outdoors = L.tileLayer('https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey={apikey}', {
+// 	attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+// 	apikey: '<your apikey>',
+// 	maxZoom: 22
+// });
+
+// var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+// 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+// });

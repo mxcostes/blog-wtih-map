@@ -8,28 +8,24 @@ export default class CreatePost extends Component {
         super(props)
 
         this.state = {
-            username: '',
+            userName: '',
+            email: '',
             title: '',
             description: '',
             location: '',
             image: '',
-            date: new Date(),
-            users: [],
+            date: new Date()
+          
         }
 
     }
 
-    componentDidMount=()=> {
-        axios.get('http://localhost:5000/users/')
-        .then(res => {
-            if(res.data.length > 0){
-                this.setState({
-                    users: res.data.map(user => user.username),
-                    username: res.data[0].username
-                })
-            }
-        })
-    }
+    // componentDidMount=()=> {
+    //   this.setState({
+    //     userName: this.props.displayName,
+    //     email: this.props.userEmail
+    //   })
+    // }
 
     onChangeUsername = (e)=> {
         this.setState({
@@ -66,41 +62,13 @@ export default class CreatePost extends Component {
            date: date
         })
     }
-    
-    onChangeImageTitle=(e) => {
-      this.setState({
-          title: e.target.value
-      })
-      }
-      
-      onChangeUploadImage=(e)=> {
-          this.setState({
-              uploadImage: e.target.files[0]
-          })
-      }
-      
-      onSubmit=(e)=>{
-          e.preventDault()
-          let formData = new FormData()
-          formData.append("title", this.state.title)
-          formData.append("image", this.state.image)
-          this.props.addImage(formData)
-      
-          this.setState({
-              imageTitle: '',
-              image: ''
-          })
-      }
 
-    onSubmit=(e)=>{
+    handleSubmit=(e)=>{
         e.preventDefault()
-        let formData = new FormData()
-          formData.append("title", this.state.title)
-          formData.append("image", this.state.image)
-          // this.props.addImage(formData)
-
+        
         const post = {
-            username: this.state.username,
+            userName: this.props.displayName,
+            email: this.props.userEmail,
             title: this.state.title,
             description: this.state.description,
             location: this.state.location,
@@ -124,23 +92,14 @@ export default class CreatePost extends Component {
         return (
             <div>
       <h3>Create New Post</h3>
-      <form onSubmit={this.onSubmit}>
-        <div className="form-group"> 
-          <label>Username: </label>
-          <select ref="userInput"
-              required
-              className="form-control"
-              value={this.state.username}
-              onChange={this.onChangeUsername}>
-              {
-                this.state.users.map((user)=> {
-                  return <option 
-                    key={user}
-                    value={user}>{user}
-                    </option>;
-                })
-              }
-          </select>
+      <form onSubmit={this.handleSubmit}>
+        <div className='form-group'>
+          <label >User:</label>
+          <h3 className='form-group'>{this.props.displayName}</h3>
+        </div>
+        <div className='form-group'>
+              <label>Blogger Email:</label>
+            <h4>{this.props.userEmail}</h4>
         </div>
         <div className="form-group"> 
           <label>Title: </label>
@@ -179,21 +138,6 @@ export default class CreatePost extends Component {
               value={this.state.image}
               onChange={this.onChangeImage}
               />
-              <label className='form-label'>Upload Image Title</label>
-                <input 
-                className='form-input' 
-                placeholder='Enter image title' 
-                type='text'
-                value={this.state.imageTitle}
-                onChange={this.onChangeimageTitle}
-                ></input>
-                <label className='form-label'> Choose an Image to Upload</label>
-                <input 
-                type='file'
-                className='form-input'
-                name='image'
-                accept='image/*'
-                onChange={this.onChangeuploadImage}></input>
         </div>
         <div className="form-group">
           <label>Date: </label>

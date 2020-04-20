@@ -5,22 +5,13 @@ import { Button } from 'react-bootstrap';
 
 const Post = (props) => (
 	<tr>
-		<td>{props.posts.username}</td>
+		<td>{props.posts.userName? props.posts.userName : props.posts.username }</td>
 		<td>
 			<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
 		</td>
 		<td>{props.posts.location}</td>
 		<td>{props.posts.date.substring(0, 10)}</td>
 		<td>
-			<Link to={'/edit/' + props.posts._id}><Button>edit</Button></Link> {' '}
-			<a
-				href="#"
-				onClick={() => {
-					props.deletePost(props.posts._id);
-				}}
-			>
-				<Button>delete</Button>
-			</a>
 			<Link to={'/postpage/' + props.posts._id}><Button>Go to Post</Button></Link>
 		</td>
 	</tr>

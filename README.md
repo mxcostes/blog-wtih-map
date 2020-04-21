@@ -1,3 +1,5 @@
+Heroku App at https://blog-with-map.herokuapp.com
+
 From top level use 
 npm start
 in the command line and then in a seperate terminal run

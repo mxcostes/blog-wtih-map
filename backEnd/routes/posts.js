@@ -15,6 +15,8 @@ router.route('/add').post((req, res) => {
 	const title = req.body.title;
 	const description = req.body.description;
 	const location = req.body.location;
+	const lat = req.body.lat;
+	const lon = req.body.lon;
 	const image = req.body.image;
 	const date = Date.parse(req.body.date)
 
@@ -24,6 +26,8 @@ router.route('/add').post((req, res) => {
 		title,
 		description,
 		location,
+		lat,
+		lon,
 		image,
 		date
 	});
@@ -51,6 +55,8 @@ router.route('/update/:id').post((req, res) => {
 			post.title = req.body.title;
 			post.description = req.body.description;
 			post.location = req.body.location;
+			post.lat = req.body.lat;
+			post.lon = req.body.lon;
 			post.image = req.body.image;
 			post.date = Date.parse(req.body.date);
 

@@ -12,6 +12,8 @@ export default class EditPost extends Component {
 			title: '',
 			description: '',
 			location: '',
+			lat: '',
+			lon: '',
 			image: '',
 			date: new Date(),
 			users: []
@@ -28,6 +30,8 @@ export default class EditPost extends Component {
 					title: response.data.title,
 					description: response.data.description,
 					location: response.data.location,
+					lat: response.data.lat,
+					lon: response.data.lon,
 					image: response.data.image,
 					date: new Date(response.data.date)
 				});
@@ -62,13 +66,11 @@ export default class EditPost extends Component {
 			description: e.target.value
 		});
 	};
-
-	onChangeLocation = (e) => {
+onChangeLocation = (e) => {
 		this.setState({
 			location: e.target.value
 		});
 	};
-
 	onChangeImage = (e) => {
 		this.setState({
 			image: e.target.value
@@ -80,6 +82,23 @@ export default class EditPost extends Component {
 			date: date
 		});
 	};
+	getLatLon=()=> {
+		fetch(`https://nominatim.openstreetmap.org/search/?q=${this.state.location}&format=json`)
+					  .then((data) => {
+						  return data.json();
+					  })
+					  .then((locInfo) => {
+						  let info = locInfo[0];
+						  console.log(info);
+						  let lat = info.lat;
+						  let lon = info.lon;
+						  this.setState({
+				  lat: lat,
+				  lon: lon
+						  })
+					  
+			  });
+			}
 
 	onSubmit = (e) => {
 		e.preventDefault();
@@ -89,6 +108,8 @@ export default class EditPost extends Component {
 			title: this.state.title,
 			description: this.state.description,
 			location: this.state.location,
+			lat: this.state.lat,
+			lon: this.state.lon,
 			image: this.state.image,
 			date: this.state.date
 		};
@@ -143,6 +164,16 @@ export default class EditPost extends Component {
 							onChange={this.onChangeLocation}
 						/>
 					</div>
+					<div className="form-group">
+						<label>Coordinates: </label>
+						<input
+							type="text"
+							className="form-control"
+							value={this.state.lat+ ',' + this.state.lon}
+							onFocus={this.getLatLon}
+						/>
+					</div>
+
 					<div className="form-group">
 						<label>Image Link: </label>
 						<input

@@ -6,9 +6,10 @@ import '../App.css';
 
 
 const  Mark = (props) => (
-	<Marker position={props.position} key={props.key}>
+	
+	<Marker position={[props.posts.lat,props.posts.lon]}>
 							<Popup>
-								<Link to={'/postpage/' + props.post._id}>{props.post.title}</Link>
+								<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
 							</Popup>
 						</Marker>
 )
@@ -21,11 +22,12 @@ export class Leaflet extends Component {
 			lat: 0,
 			lng: 40,
 			zoom: 1.5,
-			posts: [],
-			positions: []
+			posts: []
 
 		};
 	}
+
+
 
 	componentDidMount() {
 		axios
@@ -33,33 +35,20 @@ export class Leaflet extends Component {
 			.then((res) => {
 				this.setState({
 					posts: res.data
-				});
+				})
+				console.log(this.state.posts)
 			})
 			.catch((error) => console.log(error));
-
+			
+		
 		// console.log(this.state.posts)
 	}
 
-	markertList = () => {
-		
-		return this.state.posts.forEach((post) => {
-			fetch(`https://nominatim.openstreetmap.org/search/?q=${post.location}&format=json`)
-				.then((data) => {
-					return data.json();
-				})
-				.then((locInfo) => {
-					let info = locInfo[0];
-					console.log(info);
-					let lat = info.lat;
-					let lon = info.lon;
-					let position = lat + ',' + lon;
-					console.log(position);
-					console.log(post._id);
-					
-					return (
-						<Mark key={post._id} post={post} position={position} />
-					);
-				});
+	
+
+	markList = () => {
+		return this.state.posts.map((currentPost) => {
+			return <Mark posts={currentPost}  key={currentPost._id} />;
 		});
 	};
 
@@ -72,14 +61,9 @@ export class Leaflet extends Component {
 						attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 						url={this.props.mapLayer? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" : 'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png'}
 					/>
-					<Marker position={center}>
-						<Popup>
-							<Link to="/postpage/5e8389a1c32d850a398fecd3">Under the Trees</Link>
-						</Popup>
-					</Marker>
 					
 
-					{/* {this.markertList()} */}
+					{this.markList()}
 					
 				</Map>
 			</div>

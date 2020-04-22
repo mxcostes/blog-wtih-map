@@ -13,6 +13,8 @@ export default class CreatePost extends Component {
             title: '',
             description: '',
             location: '',
+            lat: '',
+            lon: '',
             image: '',
             date: new Date()
           
@@ -26,6 +28,25 @@ export default class CreatePost extends Component {
     //     email: this.props.userEmail
     //   })
     // }
+
+    // get lat lon
+getLatLon=()=> {
+  fetch(`https://nominatim.openstreetmap.org/search/?q=${this.state.location}&format=json`)
+				.then((data) => {
+					return data.json();
+				})
+				.then((locInfo) => {
+					let info = locInfo[0];
+					console.log(info);
+					let lat = info.lat;
+					let lon = info.lon;
+					this.setState({
+            lat: lat,
+            lon: lon
+					})
+				
+        });
+      }
 
     onChangeUsername = (e)=> {
         this.setState({
@@ -72,9 +93,9 @@ export default class CreatePost extends Component {
             title: this.state.title,
             description: this.state.description,
             location: this.state.location,
+            lat: this.state.lat,
+            lon: this.state.lon,
             image: this.state.image,
-            imageTitle: this.state.imageTitle,
-            uploadImage: this.state.username,
             date: this.state.date,
         }
 
@@ -129,6 +150,15 @@ export default class CreatePost extends Component {
               value={this.state.location}
               onChange={this.onChangeLocation}
               />
+              <label>Coordinates: </label>
+          <input
+          placeholder='City, Country'
+              type="text" 
+              className="form-control"
+              value={this.state.lat + ',' + this.state.lon}
+              onFocus={this.getLatLon}>
+                
+              </input>
         </div>
         <div className="form-group">
           <label>Image Link: </label>

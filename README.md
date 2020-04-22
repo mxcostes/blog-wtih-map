@@ -1,4 +1,4 @@
-Heroku App at https://blog-with-map.herokuapp.com
+Heroku App at https://blog-with-map-b6367.web.app/
 
 From top level use 
 npm start

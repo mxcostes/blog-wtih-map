@@ -4,6 +4,19 @@ import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
+const Post = (props) => (
+	<tr>
+		<td>{props.posts.userName? props.posts.userName : props.posts.username }</td>
+		<td>
+			<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
+		</td>
+		<td>{props.posts.location}</td>
+		<td>{props.posts.date.substring(0, 10)}</td>
+		<td>
+			<Link to={'/postpage/' + props.posts._id}><Button>Go to Post</Button></Link>
+		</td>
+	</tr>
+);
 
 const  Mark = (props) => (
 	
@@ -25,6 +38,7 @@ export class ProfilePage extends Component {
             lat: 0,
 			lng: 40,
 			zoom: 1.5,
+			positions: []
 		};
 	}
 
@@ -45,9 +59,21 @@ export class ProfilePage extends Component {
                 console.log(this.state.posts)
 			})
 			.catch((error) => console.log(error));
-	};
+    };
+    
+    deletePost(id) {
+		axios.delete('http://localhost:5000/posts/' + id).then((res) => console.log(res.data));
+		this.setState({
+			posts: this.state.posts.filter((el) => el._id !== id)
+		});
+	}
 
 	postList = () => {
+		return this.state.posts.map((currentPost) => {
+			return <Post posts={currentPost} delete={this.deletePost}  key={currentPost._id} />;
+		});
+    };
+    markList = () => {
 		return this.state.posts.map((currentPost) => {
 			return <Mark posts={currentPost}  key={currentPost._id} />;
 		});
@@ -69,14 +95,8 @@ export class ProfilePage extends Component {
 						attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 						url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
 					/>
-					<Marker position={center}>
-						<Popup>
-							<Link to="/postpage/5e8389a1c32d850a398fecd3">Under the Trees</Link>
-						</Popup>
-					</Marker>
-					
-
-			
+				
+			{this.markList()}
 					
 				</Map>
 			</div>

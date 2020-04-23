@@ -5,33 +5,14 @@ import { Button } from 'react-bootstrap';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 
-const Post = (props) => (
-	<tr>
-		<td>{props.posts.userName ? props.posts.userName : props.posts.username}</td>
-		<td>
-			<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
-		</td>
-		<td>{props.posts.location}</td>
-		<td>{props.posts.date.substring(0, 10)}</td>
-		<td>
-			<Link to={'/edit/' + props.posts._id}>
-				<Button>edit</Button>
-			</Link>{' '}
-			{' '}
-			<a
-				href="#"
-				onClick={() => {
-					props.deletePost(props.posts._id);
-				}}
-			>
-				<Button>delete</Button>
-			</a>
-			<Link to={'/postpage/' + props.posts._id}>
-				<Button>Go to Post</Button>
-			</Link>
-		</td>
-	</tr>
-);
+const  Mark = (props) => (
+	
+	<Marker position={[props.posts.lat,props.posts.lon]}>
+							<Popup>
+								<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
+							</Popup>
+						</Marker>
+)
 
 export class ProfilePage extends Component {
 	constructor(props) {
@@ -44,7 +25,6 @@ export class ProfilePage extends Component {
             lat: 0,
 			lng: 40,
 			zoom: 1.5,
-			positions: []
 		};
 	}
 
@@ -69,7 +49,7 @@ export class ProfilePage extends Component {
 
 	postList = () => {
 		return this.state.posts.map((currentPost) => {
-			return <Post posts={currentPost} deletePost={this.deletePost} key={currentPost._id} />;
+			return <Mark posts={currentPost}  key={currentPost._id} />;
 		});
 	};
 

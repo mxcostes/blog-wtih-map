@@ -13,6 +13,7 @@ import PostPage from './components/PostPage'
 import ModalLogIn from './components/ModalLogIn';
 import firebase from 'firebase'
 import ProfilePage from './components/ProfilePage';
+import CheckOutProfile from './components/CheckOutProfile';
 
 var firebaseConfig = {
   apiKey: "AIzaSyBesdsI0SGGWq7L1y6UEFbmBe9VahiofIk",
@@ -260,9 +261,9 @@ class App extends Component {
       <br />
       <div className='container'>
         <Route path="/" exact component={HomeBody} />
-        <Route path="/blogs" component={BlogList} />
         <Route path="/edit/:id" component={EditPost} />
         <Route path="/postpage/:id" component={PostPage} />
+        <Route path='/check_out/:name' component={CheckOutProfile} />
         <Route path="/create">
         <CreatePost 
         user={this.state.user} 

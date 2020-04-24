@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "blog-with-map-b6367"
+  },
+  "targets": {
+    "blog-with-map-b6367": {
+      "hosting": {
+        "blog-with-map": [
+          "blog-with-map-b6367"
+        ]
+      }
+    }
   }
 }

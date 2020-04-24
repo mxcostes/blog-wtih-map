@@ -21,9 +21,6 @@ export default class NavBar extends Component {
 						<LinkContainer to="/" className="navbar-item">
 							<Nav.Link className="nav-link">Explore</Nav.Link>
 						</LinkContainer>
-						<LinkContainer to="/blogs" className="navbar-item">
-							<Nav.Link className="nav-link">Blogs</Nav.Link>
-						</LinkContainer>
             {this.props.loggedIn?
 						<LinkContainer to="/profile" className="navbar-item">
 							<Nav.Link className="nav-link">Profile</Nav.Link>

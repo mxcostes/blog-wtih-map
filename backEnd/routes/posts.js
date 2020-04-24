@@ -17,6 +17,7 @@ router.route('/add').post((req, res) => {
 	const location = req.body.location;
 	const lat = req.body.lat;
 	const lon = req.body.lon;
+	const country = req.body.country;
 	const image = req.body.image;
 	const date = Date.parse(req.body.date)
 
@@ -28,6 +29,7 @@ router.route('/add').post((req, res) => {
 		location,
 		lat,
 		lon,
+		country,
 		image,
 		date
 	});
@@ -57,6 +59,7 @@ router.route('/update/:id').post((req, res) => {
 			post.location = req.body.location;
 			post.lat = req.body.lat;
 			post.lon = req.body.lon;
+			post.country = req.body.country;
 			post.image = req.body.image;
 			post.date = Date.parse(req.body.date);
 
@@ -67,6 +70,12 @@ router.route('/update/:id').post((req, res) => {
 
 router.route('/find_user/:user').post((req, res)=> {
 	Post.find({ userName: req.params.user})
+	.then((posts) => res.json(posts))
+	.catch((err) => res.status(400).json('Error: ' + err));
+})
+
+router.route('/check_out/:name').post((req,res)=> {
+	Post.find({ userName: req.params.name})
 	.then((posts) => res.json(posts))
 	.catch((err) => res.status(400).json('Error: ' + err));
 })

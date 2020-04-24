@@ -15,6 +15,7 @@ export default class CreatePost extends Component {
             location: '',
             lat: '',
             lon: '',
+            country: '',
             image: '',
             date: new Date()
           
@@ -39,12 +40,16 @@ getLatLon=()=> {
 					let info = locInfo[0];
 					console.log(info);
 					let lat = info.lat;
-					let lon = info.lon;
+          let lon = info.lon;
+          let locationName = info.display_name.split(',')
+          let country = locationName[locationName.length -1]
 					this.setState({
             lat: lat,
-            lon: lon
+            lon: lon,
+            country: country
 					})
-				
+        console.log(this.state.country)
+        console.log(country)
         });
       }
 
@@ -95,6 +100,7 @@ getLatLon=()=> {
             location: this.state.location,
             lat: this.state.lat,
             lon: this.state.lon,
+            country: this.state.country,
             image: this.state.image,
             date: this.state.date,
         }
@@ -119,7 +125,7 @@ getLatLon=()=> {
           <h3 className='form-group'>{this.props.displayName}</h3>
         </div>
         <div className='form-group'>
-              <label>Blogger Email:</label>
+              <label>User Email:</label>
             <h4>{this.props.userEmail}</h4>
         </div>
         <div className="form-group"> 

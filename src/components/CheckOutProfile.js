@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { Button, Container, Row, Col } from 'react-bootstrap';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
-import BlogCard from './BlogCard';
+import React, { Component } from 'react'
+import axios from 'axios'
+import {Container, Row, Col, Button} from 'react-bootstrap'
+import {Link} from 'react-router-dom'
+import {Map, TileLayer, Marker, Popup} from 'react-leaflet'
+import BlogCard from './BlogCard'
 
 const Post = (props) => (
 	<tr>
@@ -28,48 +28,38 @@ const  Mark = (props) => (
 						</Marker>
 )
 
-export class ProfilePage extends Component {
-	constructor(props) {
-		super(props);
 
-		this.state = {
-			displayName: '',
+
+export class CheckOutProfile extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            displayName: '',
 			email: '',
             posts: [],
             lat: 0,
 			lng: 40,
 			zoom: 1.5,
-			
-		};
-	}
 
-	componentDidMount = () => {
-		
-     this.props.establishDisplayName()
-		// bring in user specific posts query email
-		let query = {
-			userName: this.props.displayName
-		};
-		console.log(query);
-		axios
-			.post('http://localhost:5000/posts/find_user/' + this.props.displayName)
-			.then((res) => {
-				this.setState({
-					posts: res.data
-                });
-                console.log(this.state.posts)
-			})
-			.catch((error) => console.log(error));
-    };
-    
-    deletePost(id) {
-		axios.delete('http://localhost:5000/posts/' + id).then((res) => console.log(res.data));
-		this.setState({
-			posts: this.state.posts.filter((el) => el._id !== id)
-		});
-	}
+        }
 
-	postList = () => {
+};
+
+componentDidMount() {
+        axios
+        .post('http://localhost:5000/posts/check_out/' + this.props.match.params.name)
+        .then((res) => {
+            this.setState({
+                posts: res.data
+            });
+            console.log( this.props.match.params.name)
+            console.log(this.state.posts)
+        })
+        .catch((error) => console.log(error));
+    }
+
+    postList = () => {
 		return this.state.posts.map((currentPost) => {
 			return <Post posts={currentPost} delete={this.deletePost}  key={currentPost._id} />;
 		});
@@ -79,14 +69,14 @@ export class ProfilePage extends Component {
 			return <Mark posts={currentPost}  key={currentPost._id} />;
 		});
 	};
-
-	render() {
-		let center = [ this.state.lat, this.state.lng ];
+    
+    render() {
+         let center = [ this.state.lat, this.state.lng ];
 		return (
 			<div>
 				{/* display name */}
 				<div className="user_info">
-					<h1>The travels of {this.props.displayName}</h1>
+					<h1>The travels of {this.props.match.params.name}</h1>
 				</div>
 				{/* map with users posts  */}
 				<Container>
@@ -133,7 +123,7 @@ export class ProfilePage extends Component {
 				
 			</div>
 		);
-	}
+    }
 }
 
-export default ProfilePage;
+export default CheckOutProfile

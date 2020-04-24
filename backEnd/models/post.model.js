@@ -10,6 +10,7 @@ const postSchema = new Schema({
   location: { type: String, required: true },
   lat: { type: String, required: true },
   lon: { type: String, required: true },
+  country: { type: String, required: true },
   image: {type: String, required: true},
   date: { type: Date, required: true },
 }, {

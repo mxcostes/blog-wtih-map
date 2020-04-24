@@ -5,7 +5,11 @@ import { Button } from 'react-bootstrap';
 
 const Post = (props) => (
 	<tr>
-		<td>{props.posts.userName? props.posts.userName : props.posts.username }</td>
+		<td>
+			<Link to={'/check_out/'+props.posts.userName}>
+				{props.posts.userName? props.posts.userName : props.posts.username }
+				</Link>
+				</td>
 		<td>
 			<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
 		</td>

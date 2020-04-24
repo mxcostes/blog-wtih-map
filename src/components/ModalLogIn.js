@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Modal, Button, Row, Card } from 'react-bootstrap';
+import { Form, Modal, Button, Row, Card, Container, Col } from 'react-bootstrap';
 import CreateUser from './CreateUser';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -12,8 +12,9 @@ class ModalLogIn extends Component {
 		return (
 			<div>
 				{!this.props.loggedIn ? (
+          <Container>
 					<Row>
-						<div>
+						<Col lg={6} md={6} sm={12}>
 							<LoginModal
 								//props
 								centered={true}
@@ -33,10 +34,10 @@ class ModalLogIn extends Component {
 								forgotPasswordAtLogIn={this.props.forgotPasswordAtLogIn}
 								changeEmail={this.props.changeEmail}
 							/>
-						</div>
+						</Col>
 
-						<div lg={4} md={4} />
-						<div>
+						
+						<Col lg={6} md={6} sm={12}>
 							<Card style={{ width: '18rem' }}>
 								<Card.Body>
 									<Card.Title>New to the Site?</Card.Title>
@@ -48,8 +49,9 @@ class ModalLogIn extends Component {
 									</LinkContainer>
 								</Card.Body>
 							</Card>
-						</div>
+						</Col>
 					</Row>
+          </Container>
 				) : (
 					<UserLoginModal logOut={this.props.logOut} />
 				)}

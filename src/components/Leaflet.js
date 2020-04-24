@@ -59,7 +59,8 @@ export class Leaflet extends Component {
 				<Map center={center} zoom={this.state.zoom}>
 					<TileLayer
 						attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-						url={this.props.mapLayer? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" : 'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png'}
+						url={this.props.mapLayer? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" : 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'}
+						// back up tile layer, needs api layer 'https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png'
 					/>
 					
 

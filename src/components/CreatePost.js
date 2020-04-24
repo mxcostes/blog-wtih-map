@@ -109,7 +109,7 @@ getLatLon=()=> {
         axios.post('http://localhost:5000/posts/add', post)
         .then(res => console.log(res.data))
 
-        window.location = '/blogs'
+        window.location = '/'
         
     }
 

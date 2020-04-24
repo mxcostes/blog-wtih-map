@@ -14,7 +14,11 @@ const Post = (props) => (
 		<td>{props.posts.location}</td>
 		<td>{props.posts.date.substring(0, 10)}</td>
 		<td>
-			<Link to={'/postpage/' + props.posts._id}><Button>Go to Post</Button></Link>
+			<Link to={"/edit/"+props.posts._id}><Button>Edit</Button></Link>
+		
+		<Button onClick={props.delete}>Delete</Button>
+		
+			<Link to={'/postpage/' + props.posts._id}><Button>Visit</Button></Link>
 		</td>
 	</tr>
 );

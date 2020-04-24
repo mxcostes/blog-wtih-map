@@ -72,7 +72,7 @@ export  class PostPage extends Component {
     <p>{this.state.description}</p>
     <p>Feel free to reach out at {this.state.email}</p>
 
-    <Link to={"/edit/"+this.state._id}><input type="submit" value="Go Edit" className="btn btn-primary" /></Link>
+    {/* <Link to={"/edit/"+this.state._id}><input type="submit" value="Go Edit" className="btn btn-primary" /></Link> */}
                 </Col>
                 <Col lg={3}>
                 <BlogCard posts={this.state.posts} />

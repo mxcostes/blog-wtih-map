@@ -9,11 +9,13 @@ export default class EditPost extends Component {
 
 		this.state = {
 			userName: '',
+			email: '',
 			title: '',
 			description: '',
 			location: '',
 			lat: '',
 			lon: '',
+			country: '',
 			image: '',
 			date: new Date(),
 			users: []
@@ -32,6 +34,7 @@ export default class EditPost extends Component {
 					location: response.data.location,
 					lat: response.data.lat,
 					lon: response.data.lon,
+					country: response.data.country,
 					image: response.data.image,
 					date: new Date(response.data.date)
 				});
@@ -51,7 +54,7 @@ export default class EditPost extends Component {
 
 	onChangeUserName = (e) => {
 		this.setState({
-			username: e.target.value
+			userName: e.target.value
 		});
 	};
 
@@ -104,12 +107,14 @@ onChangeLocation = (e) => {
 		e.preventDefault();
 
 		const post = {
-			username: this.state.username,
+			userName: this.state.userName,
+			email: this.state.email,
 			title: this.state.title,
 			description: this.state.description,
 			location: this.state.location,
 			lat: this.state.lat,
 			lon: this.state.lon,
+			country: this.state.country,
 			image: this.state.image,
 			date: this.state.date
 		};

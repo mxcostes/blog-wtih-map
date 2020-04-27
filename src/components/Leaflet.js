@@ -20,7 +20,7 @@ export class Leaflet extends Component {
 
 		this.state = {
 			lat: 0,
-			lng: 40,
+			lon: 40,
 			zoom: 1.5,
 			posts: []
 
@@ -47,16 +47,17 @@ export class Leaflet extends Component {
 	
 
 	markList = () => {
-		return this.state.posts.map((currentPost) => {
+		return this.props.posts.map((currentPost) => {
 			return <Mark posts={currentPost}  key={currentPost._id} />;
 		});
 	};
 
+
 	render() {
-		let center = [ this.state.lat, this.state.lng ];
+		let center = [ this.props.lat, this.props.lon ];
 		return (
 			<div className="leaflet-container">
-				<Map center={center} zoom={this.state.zoom}>
+				<Map center={center} zoom={this.props.zoom}>
 					<TileLayer
 						attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
 						url={this.props.mapLayer? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" : 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'}

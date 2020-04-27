@@ -2,13 +2,15 @@ const router = require('express').Router();
 let Post = require('../models/post.model');
 
 
-
+// gets all posts
 router.route('/').get((req, res) => {
 	Post.find()
 	.then((posts) => res.json(posts))
 	.catch((err) => res.status(400).json('Error: ' + err));
 });
 
+
+// creates new post
 router.route('/add').post((req, res) => {
 	const userName = req.body.userName;
 	const email = req.body.email;
@@ -38,17 +40,20 @@ router.route('/add').post((req, res) => {
 })
 	 
 
-
+// finds single post by ID
 router.route('/:id').get((req, res) => {
 	Post.findById(req.params.id).then((post) => res.json(post)).catch((err) => res.status(400).json('Error: ' + err));
 });
 
+// deletes post by id
 router.route('/:id').delete((req, res) => {
 	Post.findByIdAndDelete(req.params.id)
 		.then(() => res.json('Post deleted.'))
 		.catch((err) => res.status(400).json('Error: ' + err));
 });
 
+
+// updates post
 router.route('/update/:id').post((req, res) => {
 	Post.findById(req.params.id)
 		.then((post) => {
@@ -68,17 +73,37 @@ router.route('/update/:id').post((req, res) => {
 		.catch((err) => res.status(400).json('Error: ' + err));
 });
 
+// fetches for single user info profile
 router.route('/find_user/:user').post((req, res)=> {
 	Post.find({ userName: req.params.user})
 	.then((posts) => res.json(posts))
 	.catch((err) => res.status(400).json('Error: ' + err));
 })
-
+// fetches author info may be redundant given it does the same thing as about
 router.route('/check_out/:name').post((req,res)=> {
 	Post.find({ userName: req.params.name})
 	.then((posts) => res.json(posts))
 	.catch((err) => res.status(400).json('Error: ' + err));
 })
+
+// find posts within a searhed country
+router.route('/search/:search').post((req,res)=> {
+	Post.find({country: " " + req.params.search})
+	.then((posts)=> res.json(posts))
+	.catch((err) => res.status(400).json('Error: ' + err))
+	})
+
+	// Post.find({country: " " + req.params.search})
+	// .then(function(posts) {
+	// 	if(posts){
+	// 		res.json(posts)
+
+	// 	} else {
+	// 		Post.find({userName: req.params.search})
+	// 		.then((posts)=> res.json(posts))
+	// 	}
+	// } )
+	// 	.catch((err
 
 
 

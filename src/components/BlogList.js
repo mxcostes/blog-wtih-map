@@ -27,7 +27,11 @@ export default class BlogList extends Component {
 
 		this.deletePost = this.deletePost.bind(this);
 
-		this.state = { posts: [] };
+		this.state = { 
+			posts: [],
+			search: ''
+		
+		};
 	}
 
 	componentDidMount() {
@@ -41,6 +45,25 @@ export default class BlogList extends Component {
 			.catch((error) => console.log(error));
 	}
 
+	// componentWillUpdate() {
+	// 	this.setState({
+	// 		posts: this.props.posts
+	// 	})
+	// }
+
+	
+	
+	// searchByCountry = () => {
+	// 	axios
+	// 		.post('http://localhost:5000/posts/search/' + this.state.search)
+	// 		.then((res)=> {
+	// 		this.setState({
+	// 			posts: res.data
+	// 		})
+	// 		})
+	// 		console.log(this.state.posts)
+	// }
+
 	deletePost(id) {
 		axios.delete('http://localhost:5000/posts/' + id).then((res) => console.log(res.data));
 		this.setState({
@@ -49,7 +72,7 @@ export default class BlogList extends Component {
 	}
 
 	postList = () => {
-		return this.state.posts.map((currentPost) => {
+		return this.props.posts.map((currentPost) => {
 			return <Post posts={currentPost} deletePost={this.deletePost} key={currentPost._id} />;
 		});
 	};

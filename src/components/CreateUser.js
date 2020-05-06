@@ -36,7 +36,6 @@ class CreateUser extends Component {
   };
   
 
-  // get lat long of location
   
 
 

@@ -53,7 +53,7 @@ class ModalLogIn extends Component {
 					</Row>
           </Container>
 				) : (
-					<UserLoginModal logOut={this.props.logOut} />
+					<UserLoginModal display={this.props.display} displayColor={this.props.displayColor} logOut={this.props.logOut} />
 				)}
 			</div>
 		);

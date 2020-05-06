@@ -16,11 +16,8 @@ app.use(bodyParser.json({ limit: '50mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, {
-	useUnifiedTopology: true,
-	useNewUrlParser: true,
-	useCreateIndex: true
-});
+mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true })
+mongoose.set('useFindAndModify', false)
 const connection = mongoose.connection;
 connection.once('open', () => {
 	console.log('MongoDB database connection established successfully');

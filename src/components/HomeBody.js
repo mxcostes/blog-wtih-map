@@ -92,7 +92,7 @@ export class HomeBody extends Component {
 			<div>
 				<span>
 					<h1>Explore</h1>
-					<Button onClick={this.toggleMapLayer}>
+					<Button className='pb-3' onClick={this.toggleMapLayer}>
 						{this.state.mapLayer ? 'See Lines' : 'See Sat Imagery'}
 					</Button>
 				</span>

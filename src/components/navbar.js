@@ -9,6 +9,8 @@ export default class NavBar extends Component {
 		this.state = {};
 	}
 
+
+
 	render() {
 		return (
 			<Navbar fixed="top" bg="dark" variant="dark" className="navContainer" expand="md" collapseOnSelect="true">
@@ -22,7 +24,7 @@ export default class NavBar extends Component {
 							<Nav.Link className="nav-link">Explore</Nav.Link>
 						</LinkContainer>
             {this.props.loggedIn?
-						<LinkContainer to="/profile" className="navbar-item">
+						<LinkContainer to={"/profile/" + this.props.user}  className="navbar-item">
 							<Nav.Link className="nav-link">Profile</Nav.Link>
             </LinkContainer> 
             : null}

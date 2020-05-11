@@ -4,30 +4,35 @@ import axios from 'axios';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import BlogCard from './BlogCard';
+import firebase from 'firebase' 
+
+
+
+let posts = []
 
 const Post = (props) => (
 	<tr>
-		<td>{props.posts.userName? props.posts.userName : props.posts.username }</td>
+		<td>{props.posts.post.userName}</td>
 		<td>
-			<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
+			<Link to={'/postpage/' + props.posts.key}>{props.posts.post.title}</Link>
 		</td>
-		<td>{props.posts.location}</td>
-		<td>{props.posts.date.substring(0, 10)}</td>
+		<td>{props.posts.post.location}</td>
+		{/* <td>{props.posts.date.substring(0, 10)}</td> */}
 		<td>
-			<Link to={"/edit/"+props.posts._id}><Button>Edit</Button></Link>
+			<Link to={"/edit/"+props.posts.key}><Button>Edit</Button></Link>
 		
 		<Button onClick={props.delete}>Delete</Button>
 		
-			<Link to={'/postpage/' + props.posts._id}><Button>Visit</Button></Link>
+			<Link to={'/postpage/' + props.posts.key}><Button>Visit</Button></Link>
 		</td>
 	</tr>
 );
 
 const  Mark = (props) => (
 	
-	<Marker position={[props.posts.lat,props.posts.lon]}>
+	<Marker position={[props.posts.post.lat,props.posts.post.lon]}>
 							<Popup>
-								<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
+								<Link to={'/postpage/' + props.posts.key}>{props.posts.title}</Link>
 							</Popup>
 						</Marker>
 )
@@ -39,33 +44,42 @@ export class ProfilePage extends Component {
 		this.state = {
 			displayName: '',
 			email: '',
-            posts: [],
             lat: 0,
 			lng: 40,
 			zoom: 1.5,
+			posts: []
 			
 		};
 	}
 
-	componentDidMount = () => {
-		
-     this.props.establishDisplayName()
-		// bring in user specific posts query email
-		let query = {
-			userName: this.props.displayName
-		};
-		console.log(query);
-		axios
-			.post('http://localhost:5000/posts/find_user/' + this.props.displayName)
-			.then((res) => {
-				this.setState({
-					posts: res.data
-                });
-                console.log(this.state.posts)
-			})
-			.catch((error) => console.log(error));
-    };
-    
+	componentDidMount() {
+		this.loadPosts()
+	  }
+	  
+	  loadPosts=()=> {
+		  const db = firebase.firestore();
+		  db.collection('posts').where("userName", '==', this.props.match.params.name)
+		  .get()
+		  .then(function(querySnapshot) {
+			  querySnapshot.forEach(function(doc) {
+				  
+				  // doc.data() is never undefined for query doc snapshots
+				  posts.push({
+					  key: doc.id,
+					  post: doc.data()
+				  })
+			  })
+			  
+		  })
+		  .then(()=> {
+			  this.setState({
+				  posts: posts
+			  })
+  
+		  })
+	  }
+  
+
     deletePost(id) {
 		axios.delete('http://localhost:5000/posts/' + id).then((res) => console.log(res.data));
 		this.setState({
@@ -75,16 +89,17 @@ export class ProfilePage extends Component {
 
 	postList = () => {
 		return this.state.posts.map((currentPost) => {
-			return <Post posts={currentPost} delete={this.deletePost}  key={currentPost._id} />;
+			return <Post posts={currentPost} delete={this.deletePost}  key={currentPost.key} />;
 		});
     };
     markList = () => {
 		return this.state.posts.map((currentPost) => {
-			return <Mark posts={currentPost}  key={currentPost._id} />;
+			return <Mark posts={currentPost}  key={currentPost.key} />;
 		});
 	};
 
 	render() {
+	if(!this.props.displayName && !this.state.posts) { return <div /> }
 		let center = [ this.state.lat, this.state.lng ];
 		return (
 			<div>
@@ -93,6 +108,7 @@ export class ProfilePage extends Component {
 					<h1>The travels of {this.props.displayName}</h1>
 				</div>
 				{/* map with users posts  */}
+				 
 				<Container>
                     <Row>
                     <Col lg={9}>
@@ -126,7 +142,7 @@ export class ProfilePage extends Component {
 					</div>
 				</div>
             </Col>
-            <Col lg={3}>
+          <Col lg={3}>
                 <BlogCard 
                 posts={this.state.posts}
                 />
@@ -134,6 +150,7 @@ export class ProfilePage extends Component {
             </Row>
             </Container>
             
+				
 				
 			</div>
 		);

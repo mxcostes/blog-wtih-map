@@ -4,31 +4,45 @@ import { Button, Col, Container, Row, InputGroup, FormControl } from 'react-boot
 import BlogCard from './BlogCard';
 import axios from 'axios';
 import BlogList from './BlogList';
+import firebase from 'firebase';
 
+let array = [];
+let countrySearch = [];
 export class HomeBody extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			mapLayer: true,
 			search: '',
-			posts: [],
+			posts: null,
 			lat: 0,
 			lon: 40,
 			zoom: 1.5
 		};
 	}
 
-	componentDidMount() {
-		axios
-			.get('http://localhost:5000/posts/')
-			.then((res) => {
-				this.setState({
-					posts: res.data
+	componentDidMount = () => {
+		this.loadPosts();
+	};
+
+	loadPosts = () => {
+		const db = firebase.firestore();
+		db.collection('posts').get().then(function(querySnapshot) {
+			querySnapshot.forEach(function(doc) {
+				// doc.data() is never undefined for query doc snapshots
+				array.push({
+					key: doc.id,
+					post: doc.data()
 				});
-				console.log(this.state.posts);
-			})
-			.catch((error) => console.log(error));
-	}
+			});
+		})
+		.then(()=> {
+			this.setState({
+				posts: array
+			});
+
+		})
+	};
 
 	onChangeSearch = (e) => {
 		this.setState({
@@ -37,10 +51,16 @@ export class HomeBody extends Component {
 	};
 
 	searchByCountry = () => {
-		axios.post('http://localhost:5000/posts/search/' + this.state.search).then((res) => {
-			this.setState({
-				posts: res.data
+		const db = firebase.firestore();
+		db.collection('posts').where('country', '==', this.state.search).get().then(function(querySnapshot) {
+			querySnapshot.forEach(function(doc) {
+				// doc.data() is never undefined for query doc snapshots
+				console.log(doc.id, ' => ', doc.data());
+				countrySearch.push(doc.data());
 			});
+		});
+		this.setState({
+			posts: countrySearch
 		});
 		fetch(`https://nominatim.openstreetmap.org/search/?q=${this.state.search}&format=json`)
 			.then((data) => {
@@ -57,6 +77,7 @@ export class HomeBody extends Component {
 					zoom: 4
 				});
 				console.log(this.state.lat, this.state.lon);
+				console.log(countrySearch);
 			});
 	};
 
@@ -65,10 +86,10 @@ export class HomeBody extends Component {
 			.post('http://localhost:5000/posts/find_user/' + this.state.search)
 			.then((res) => {
 				this.setState({
-                    posts: res.data,
-                    lat: 0,
-                    lon: 40,
-                    zoom: 1.5
+					posts: res.data,
+					lat: 0,
+					lon: 40,
+					zoom: 1.5
 				});
 				console.log(this.state.posts);
 			})
@@ -88,11 +109,14 @@ export class HomeBody extends Component {
 	};
 
 	render() {
+		if (!this.state.posts) {
+			return <div />;
+		}
 		return (
 			<div>
 				<span>
 					<h1>Explore</h1>
-					<Button className='mb-3' onClick={this.toggleMapLayer}>
+					<Button className="mb-3" onClick={this.toggleMapLayer}>
 						{this.state.mapLayer ? 'See Lines' : 'See Sat Imagery'}
 					</Button>
 				</span>
@@ -109,28 +133,34 @@ export class HomeBody extends Component {
 						<Button variant="outline-secondary" onClick={this.searchByCountry}>
 							Search By Country
 						</Button>
-						<Button variant="outline-secondary" onClick={this.searchByUser}>Search By User</Button>
+						<Button variant="outline-secondary" onClick={this.searchByUser}>
+							Search By User
+						</Button>
 					</InputGroup.Append>
 				</InputGroup>
 
-				<Container>
-					<Row>
-						<Col lg={9}>
-							<Leaflet
-								toggleMapLayer={this.toggleMapLayer}
-								mapLayer={this.state.mapLayer}
-								posts={this.state.posts}
-								lat={this.state.lat}
-								lon={this.state.lon}
-								zoom={this.state.zoom}
-							/>
-							<BlogList posts={this.state.posts} />
-						</Col>
-						<Col lg={3}>
-							<BlogCard posts={this.state.posts} />
-						</Col>
-					</Row>
-				</Container>
+				{this.state.posts ? (
+					<Container>
+						<Row>
+							<Col lg={9}>
+								<Leaflet
+									toggleMapLayer={this.toggleMapLayer}
+									mapLayer={this.state.mapLayer}
+									posts={this.state.posts}
+									lat={this.state.lat}
+									lon={this.state.lon}
+									zoom={this.state.zoom}
+								/>
+								<BlogList posts={this.state.posts} />
+							</Col>
+							<Col lg={3}>
+								<BlogCard posts={this.state.posts} />
+							</Col>
+						</Row>
+					</Container>
+				) : (
+					<div />
+				)}
 			</div>
 		);
 	}

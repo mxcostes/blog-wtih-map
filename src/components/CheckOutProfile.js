@@ -1,29 +1,35 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import {Container, Row, Col, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import {Map, TileLayer, Marker, Popup} from 'react-leaflet'
 import BlogCard from './BlogCard'
+import firebase from 'firebase' 
+
+
+
+let posts = []
 
 const Post = (props) => (
 	<tr>
-		<td>{props.posts.userName? props.posts.userName : props.posts.username }</td>
+		<td>{props.posts.post.userName}</td>
 		<td>
-			<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
+			<Link to={'/postpage/' + props.posts.key}>{props.posts.post.title}</Link>
 		</td>
-		<td>{props.posts.location}</td>
-		<td>{props.posts.date.substring(0, 10)}</td>
+		<td>{props.posts.post.location}</td>
+		{/* <td>{props.posts.date.substring(0, 10)}</td> */}
 		<td>
-			<Link to={'/postpage/' + props.posts._id}><Button>Go to Post</Button></Link>
+			
+		
+			<Link to={'/postpage/' + props.posts.key}><Button>Visit</Button></Link>
 		</td>
 	</tr>
 );
 
 const  Mark = (props) => (
 	
-	<Marker position={[props.posts.lat,props.posts.lon]}>
+	<Marker position={[props.posts.post.lat,props.posts.post.lon]}>
 							<Popup>
-								<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
+								<Link to={'/postpage/' + props.posts.key}>{props.posts.title}</Link>
 							</Popup>
 						</Marker>
 )
@@ -47,26 +53,42 @@ export class CheckOutProfile extends Component {
 };
 
 componentDidMount() {
-        axios
-        .post('http://localhost:5000/posts/check_out/' + this.props.match.params.name)
-        .then((res) => {
-            this.setState({
-                posts: res.data
-            });
-            console.log( this.props.match.params.name)
-            console.log(this.state.posts)
-        })
-        .catch((error) => console.log(error));
-    }
+	  this.loadPosts()
+	  
+	}
+
+	
+	loadPosts=()=> {
+		const db = firebase.firestore();
+        db.collection('posts').where("userName", '==', this.props.match.params.name)
+        .get()
+        .then(function(querySnapshot) {
+			querySnapshot.forEach(function(doc) {
+                
+				// doc.data() is never undefined for query doc snapshots
+                posts.push({
+					key: doc.id,
+					post: doc.data()
+				})
+            })
+            
+		})
+		.then(()=> {
+			this.setState({
+				posts: posts
+			})
+
+		})
+	}
 
     postList = () => {
 		return this.state.posts.map((currentPost) => {
-			return <Post posts={currentPost} delete={this.deletePost}  key={currentPost._id} />;
+			return <Post posts={currentPost} delete={this.deletePost}  key={currentPost.key} />;
 		});
     };
     markList = () => {
 		return this.state.posts.map((currentPost) => {
-			return <Mark posts={currentPost}  key={currentPost._id} />;
+			return <Mark posts={currentPost}  key={currentPost.key} />;
 		});
 	};
     

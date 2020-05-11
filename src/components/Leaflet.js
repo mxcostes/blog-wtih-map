@@ -7,7 +7,7 @@ import '../App.css';
 
 const  Mark = (props) => (
 	
-	<Marker position={[props.posts.lat,props.posts.lon]}>
+	<Marker position={[props.posts.post.lat,props.posts.post.lon]}>
 							<Popup>
 								<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
 							</Popup>
@@ -27,28 +27,11 @@ export class Leaflet extends Component {
 		};
 	}
 
-
-
-	componentDidMount() {
-		axios
-			.get('http://localhost:5000/posts/')
-			.then((res) => {
-				this.setState({
-					posts: res.data
-				})
-				console.log(this.state.posts)
-			})
-			.catch((error) => console.log(error));
-			
-		
-		// console.log(this.state.posts)
-	}
-
 	
 
 	markList = () => {
 		return this.props.posts.map((currentPost) => {
-			return <Mark posts={currentPost}  key={currentPost._id} />;
+			return <Mark posts={currentPost}  key={currentPost.key} />;
 		});
 	};
 

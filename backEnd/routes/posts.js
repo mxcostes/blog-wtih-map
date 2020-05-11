@@ -81,10 +81,19 @@ router.route('/find_user/:user').post((req, res)=> {
 })
 // fetches author info may be redundant given it does the same thing as about
 router.route('/check_out/:name').post((req,res)=> {
-	Post.find({ userName: req.params.name})
-	.then((posts) => res.json(posts))
-	.catch((err) => res.status(400).json('Error: ' + err));
-})
+	const db = firebase.firestore();
+        db.collection('posts').where("userName", '==', this.props.displayName)
+        .get()
+        .then(function(querySnapshot) {
+			res.json(querySnapshot)
+                
+				})
+				.catch((err)=> res.status(400))
+            })
+            
+        
+        
+
 
 // find posts within a searhed country
 router.route('/search/:search').post((req,res)=> {

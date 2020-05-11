@@ -6,14 +6,14 @@ import {Link } from 'react-router-dom'
 
 const CardMaker=(props) => ( 
 <Card style={{ width: '18rem' }}>
-<Card.Img variant="top" src={props.posts.image} />
+<Card.Img variant="top" src={props.posts.postimage} />
 <Card.Body>
-<Card.Title>{props.posts.title}</Card.Title>
+<Card.Title>{props.posts.post.title}</Card.Title>
   <Card.Text>
     Some quick example text to build on the card title and make up the bulk of
     the card's content.
   </Card.Text>
-  <Link to={'/postpage/' + props.posts._id}><Button>Go to Post</Button></Link>
+  <Link to={'/postpage/' + props.posts.key}><Button>Go to Post</Button></Link>
 </Card.Body>
 </Card>
 )
@@ -28,13 +28,11 @@ export class BlogCard extends Component {
 
     }
 
-    componentDidMount() {
-
-    }
+   
 
     cardList = () => {
 		return this.props.posts.map((currentPost) => {
-			return <CardMaker posts={currentPost}  key={currentPost._id} />;
+			return <CardMaker posts={currentPost}  key={currentPost.key} />;
 		});
     };
     

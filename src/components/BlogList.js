@@ -6,17 +6,17 @@ import { Button } from 'react-bootstrap';
 const Post = (props) => (
 	<tr>
 		<td>
-			<Link to={'/check_out/'+props.posts.userName}>
-				{props.posts.userName? props.posts.userName : props.posts.username }
+			<Link to={'/check_out/'+props.posts.post.userName}>
+				{props.posts.post.userName}
 				</Link>
 				</td>
 		<td>
-			<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
+			<Link to={'/postpage/' + props.posts.key}>{props.posts.post.title}</Link>
 		</td>
-		<td>{props.posts.location}</td>
-		<td>{props.posts.date.substring(0, 10)}</td>
+		<td>{props.posts.post.location}</td>
+		<td>Date!</td>
 		<td>
-			<Link to={'/postpage/' + props.posts._id}><Button>Go to Post</Button></Link>
+			<Link to={'/postpage/' + props.posts.key}><Button>Go to Post</Button></Link>
 		</td>
 	</tr>
 );
@@ -34,35 +34,8 @@ export default class BlogList extends Component {
 		};
 	}
 
-	componentDidMount() {
-		axios
-			.get('http://localhost:5000/posts/')
-			.then((res) => {
-				this.setState({
-					posts: res.data
-				});
-			})
-			.catch((error) => console.log(error));
-	}
-
-	// componentWillUpdate() {
-	// 	this.setState({
-	// 		posts: this.props.posts
-	// 	})
-	// }
 
 	
-	
-	// searchByCountry = () => {
-	// 	axios
-	// 		.post('http://localhost:5000/posts/search/' + this.state.search)
-	// 		.then((res)=> {
-	// 		this.setState({
-	// 			posts: res.data
-	// 		})
-	// 		})
-	// 		console.log(this.state.posts)
-	// }
 
 	deletePost(id) {
 		axios.delete('http://localhost:5000/posts/' + id).then((res) => console.log(res.data));
@@ -73,7 +46,7 @@ export default class BlogList extends Component {
 
 	postList = () => {
 		return this.props.posts.map((currentPost) => {
-			return <Post posts={currentPost} deletePost={this.deletePost} key={currentPost._id} />;
+			return <Post posts={currentPost} deletePost={this.deletePost} key={currentPost.key} />;
 		});
 	};
 

@@ -3,6 +3,7 @@ import './App.css';
 import 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import firebase from 'firebase';
 import HomeBody from './components/HomeBody';
 import NavBar from './components/navbar';
 import EditPost from './components/EditPost';
@@ -12,7 +13,7 @@ import PostPage from './components/PostPage';
 import ModalLogIn from './components/ModalLogIn';
 import ProfilePage from './components/ProfilePage';
 import CheckOutProfile from './components/CheckOutProfile';
-import firebase from 'firebase';
+import ChatRoom from './components/ChatRoom';
 
 var firebaseConfig = {
 	apiKey: 'AIzaSyBesdsI0SGGWq7L1y6UEFbmBe9VahiofIk',
@@ -46,7 +47,8 @@ class App extends Component {
 			userModalShow: false,
 			user: '',
 			userEmail: '',
-			displayName: ''
+			displayName: '',
+			countryToChat: ''
 		};
 	}
 
@@ -255,6 +257,12 @@ class App extends Component {
 		});
 	};
 
+	setCountryForChat=(country)=> {
+		this.setState({
+			countryToChat: country
+		})
+	}
+
 	render() {
 		return (
 			<div className="App">
@@ -267,6 +275,11 @@ class App extends Component {
 						<Route path="/postpage/:id" component={PostPage} />
 						<Route path="/check_out/:name" component={CheckOutProfile} />
 						<Route path="/profile/:name" component={ProfilePage} />
+						<Route path="/chatroom/" component={ChatRoom}>
+							<ChatRoom 
+							user={this.state.displayName}
+							/>
+						</Route>
 						<Route path="/create">
 							<CreatePost
 								user={this.state.user}

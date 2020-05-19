@@ -7,10 +7,75 @@
 
 .featuredImage {
   height: 45vh;
-  width: 45vw;
+  width: auto;
 }
 
 .container {
   padding-top: 10vh;
 }
 
+.cardImage {
+  height: 30vh;
+}
+
+.chatBox {
+  height: 70vh;
+  width: 70vw;
+  overflow-y:auto;
+}
+
+.blogBox {
+  max-height: 60vh;
+  width: fit-content;
+  overflow-y:auto;
+}
+
+.message {
+  height: 2rem;
+}
+
+.smallFont {
+  font-size: .5rem;
+}
+
+.handle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+h1 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+h3 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+h4 {
+font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+p {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.font-class {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.anchor {
+  /* allow the final child to be selected as an anchor node */
+  overflow-anchor: auto;
+
+  /* anchor nodes are required to have non-zero area */
+  height: 1px;
+}
+  
+
+.width-50 {
+  width: fit-content;
+}
+.header-font {
+  font-weight: 700;
+  font-size: 1.2rem;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}

@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import firebase from 'firebase';
+import { Button, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 let post = [];
 
@@ -22,7 +24,9 @@ export default class EditPost extends Component {
 			image: '',
 			date: 'new Date()',
 			users: [],
-			post: null
+			post: null,
+			displayMessage: '',
+			displayColor: ''
 		};
 	}
 
@@ -87,12 +91,9 @@ export default class EditPost extends Component {
 					country: post[0].post.country,
 					image: post[0].post.image,
 					date: 'placeholder'
-
 				});
 			});
 	};
-
-	
 
 	onChangeUserName = (e) => {
 		this.setState({
@@ -149,26 +150,31 @@ export default class EditPost extends Component {
 		const db = firebase.firestore();
 
 		let param = this.props.match.params.id;
-		db.collection('posts').doc(param).update({
-			'post.userName': this.state.userName,
-			'post.userName': this.state.userName,
-			'post.email': this.state.email,
-			'post.title': this.state.title,
-			'post.description': this.state.description,
-			'post.location': this.state.location,
-			'post.lat': this.state.lat,
-			'post.lon': this.state.lon,
-			'post.country': this.state.country,
-			'post.image': this.state.image,
-			'post.date': this.state.date
-		})
-		.then(()=> {
-			console.log('success')
-		  })
-		  .catch((err)=> {
-			console.log
-			(err)
-		  })
+		db
+			.collection('posts')
+			.doc(param)
+			.update({
+				userName: this.state.userName,
+				email: this.state.email,
+				title: this.state.title,
+				description: this.state.description,
+				location: this.state.location,
+				lat: this.state.lat,
+				lon: this.state.lon,
+				country: this.state.country,
+				image: this.state.image,
+				date: this.state.date
+			})
+			.then(() => {
+				this.setState({
+					displayMessage: 'Post Updated!',
+					displayColor: 'green'
+
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 
 		// const post = {
 		// 	userName: this.state.userName,
@@ -192,7 +198,6 @@ export default class EditPost extends Component {
 	};
 	consoleClick = () => {
 		console.log(this.state.array);
-		console.log(post);
 		console.log(this.state);
 		console.log(this.state.post[0]);
 		console.log(this.state.post[0].post);
@@ -263,14 +268,17 @@ export default class EditPost extends Component {
 					</div>
 					<div className="form-group">
 						<label>Date: </label>
-						<div>
-							{/* <DatePicker selected={this.state.date} onChange={this.onChangeDate} /> */}
-						</div>
+						<div>{/* <DatePicker selected={this.state.date} onChange={this.onChangeDate} /> */}</div>
 					</div>
-
-					<div className="form-group">
-						<input type="submit" value="Edit Post" className="btn btn-primary" />
-					</div>
+					<div className="mb-3" style={{ color: this.state.displayColor }}>{this.state.displayMessage}</div>
+					<Row>
+						<Button type="submit" value="Edit Post" className="btn btn-primary form-group mr-3">
+							Update
+						</Button>
+						<Link to={'/postpage/' + this.props.match.params.id}>
+							<Button>Go to Post</Button>
+						</Link>
+					</Row>
 				</form>
 			</div>
 		);

@@ -14,8 +14,8 @@ export default class NavBar extends Component {
 	render() {
 		return (
 			<Navbar fixed="top" bg="dark" variant="dark" className="navContainer" expand="md" collapseOnSelect="true">
-				<LinkContainer to="/" className="navbar-brand">
-					<Nav.Link>Travel Tracker</Nav.Link>
+				<LinkContainer to="/" className="navbar-brand header-font">
+					<Nav.Link >Travel Tracker</Nav.Link>
 				</LinkContainer>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
@@ -31,6 +31,11 @@ export default class NavBar extends Component {
             {this.props.loggedIn?
 						<LinkContainer to="/create" className="navbar-item">
 							<Nav.Link className="nav-link">Create Blog Post</Nav.Link>
+            </LinkContainer> 
+            : null}
+            {this.props.loggedIn?
+						<LinkContainer to="/chatroom/" className="navbar-item">
+							<Nav.Link className="nav-link">Chat</Nav.Link>
             </LinkContainer> 
             : null}
 						<LinkContainer to="/user" className="navbar-item">

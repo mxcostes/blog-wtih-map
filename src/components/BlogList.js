@@ -6,15 +6,15 @@ import { Button } from 'react-bootstrap';
 const Post = (props) => (
 	<tr>
 		<td>
-			<Link to={'/check_out/'+props.posts.post.userName}>
+			<Link to={'/check_out/'+props.posts.post.userName} className='font-class text-light'>
 				{props.posts.post.userName}
 				</Link>
 				</td>
 		<td>
-			<Link to={'/postpage/' + props.posts.key}>{props.posts.post.title}</Link>
+			<Link to={'/postpage/' + props.posts.key} className='font-class text-light'>{props.posts.post.title}</Link>
 		</td>
-		<td>{props.posts.post.location}</td>
-		<td>Date!</td>
+		<td className='font-class'>{props.posts.post.location}</td>
+		<td className='font-class'>{props.posts.post.date}</td>
 		<td>
 			<Link to={'/postpage/' + props.posts.key}><Button>Go to Post</Button></Link>
 		</td>
@@ -54,6 +54,7 @@ export default class BlogList extends Component {
 		return (
 			<div>
 				<h3>Posts</h3>
+				<div className='blogBox bg-dark rounded'>
 				<table className="table">
 					<thead className="thead-light">
 						<tr>
@@ -64,8 +65,10 @@ export default class BlogList extends Component {
 							<th>Actions</th>
 						</tr>
 					</thead>
-					<tbody>{this.postList()}</tbody>
+					<tbody className='text-light'>{this.postList()}</tbody>
 				</table>
+
+				</div>
 			</div>
 		);
 	}

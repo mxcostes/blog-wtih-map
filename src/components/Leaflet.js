@@ -9,7 +9,7 @@ const  Mark = (props) => (
 	
 	<Marker position={[props.posts.post.lat,props.posts.post.lon]}>
 							<Popup>
-								<Link to={'/postpage/' + props.posts._id}>{props.posts.title}</Link>
+								<Link to={'/postpage/' + props.posts.key}>{props.posts.post.title}</Link>
 							</Popup>
 						</Marker>
 )

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import axios from 'axios';
 import firebase from 'firebase'
-import firestore from "firebase/firebase-firestore";
+import { Button, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 
 export default class CreatePost extends Component {
@@ -104,10 +104,14 @@ export default class CreatePost extends Component {
 			lon: this.state.lon,
 			country: this.state.country,
 			image: this.state.image,
-			date: this.state.date
-    })
+			date: new Date(firebase.firestore.Timestamp.now().seconds*1000).toLocaleDateString()
+		    })
     .then(()=> {
-      console.log('success')
+	  console.log('success')
+	  this.setState({
+		  displayMessage: 'Post Created!',
+		  displayColor: 'green'
+	  })
     })
     .catch((err)=> {
       console.log
@@ -178,15 +182,29 @@ export default class CreatePost extends Component {
 							onChange={this.onChangeImage}
 						/>
 					</div>
-					<div className="form-group">
+					{/* <div className="form-group">
 						<label>Date: </label>
 						<div>
 							<DatePicker selected={this.state.date} onChange={this.onChangeDate} />
 						</div>
-					</div>
+					</div> */}
 
 					<div className="form-group">
-						<input type="submit" value="Create Post" className="btn btn-primary" />
+						<div style={{ color: this.state.displayColor }}>
+							{this.state.displayMessage}
+						</div>
+						<Row>
+						<Button type="submit" value="Create Post" className="btn btn-primary mr-3">
+							Create Post
+						</Button>
+						<Link to={'/'}>
+						<Button type="submit" className="btn btn-primary">
+							Go Home!
+						</Button>
+						</Link>
+
+						</Row>
+
 					</div>
 				</form>
 			</div>

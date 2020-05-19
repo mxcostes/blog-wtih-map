@@ -7,16 +7,15 @@ import firebase from 'firebase'
 
 
 
-let posts = []
 
 const Post = (props) => (
 	<tr>
-		<td>{props.posts.post.userName}</td>
-		<td>
-			<Link to={'/postpage/' + props.posts.key}>{props.posts.post.title}</Link>
+		<td className="font-class text-light">{props.posts.post.userName}</td>
+		<td className="font-class text-light">
+			<Link className="font-class text-light" to={'/postpage/' + props.posts.key}>{props.posts.post.title}</Link>
 		</td>
-		<td>{props.posts.post.location}</td>
-		{/* <td>{props.posts.date.substring(0, 10)}</td> */}
+		<td className="font-class text-light">{props.posts.post.location}</td>
+		<td className="font-class text-light">{props.posts.post.date}</td>
 		<td>
 			
 		
@@ -29,7 +28,7 @@ const  Mark = (props) => (
 	
 	<Marker position={[props.posts.post.lat,props.posts.post.lon]}>
 							<Popup>
-								<Link to={'/postpage/' + props.posts.key}>{props.posts.title}</Link>
+								<Link to={'/postpage/' + props.posts.key}>{props.posts.post.title}</Link>
 							</Popup>
 						</Marker>
 )
@@ -59,6 +58,7 @@ componentDidMount() {
 
 	
 	loadPosts=()=> {
+		let posts = []
 		const db = firebase.firestore();
         db.collection('posts').where("userName", '==', this.props.match.params.name)
         .get()
@@ -116,9 +116,10 @@ componentDidMount() {
 				</Map>
 			</div>
             {/*blog list of posts with  edit option*/}
-				<div className="blog_list">
+				<div className="blog_list mb-3">
 					<div>
 						<h3>Posts</h3>
+						<div className="blogBox bg-dark rounded">
 						<table className="table">
 							<thead className="thead-light">
 								<tr>
@@ -131,6 +132,8 @@ componentDidMount() {
 							</thead>
 							<tbody>{this.postList()}</tbody>
 						</table>
+
+						</div>
 					</div>
 				</div>
             </Col>
